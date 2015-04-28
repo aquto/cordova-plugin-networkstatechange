@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+        id="com.aquto.cordova.networkstate.NetworkStateMonitor"
+        version="0.0.1">
+
+    <name>Network State Monitor</name>
+
+    <description>Allows users to monitor network state change events.</description>
+
+    <license>MIT</license>
+    <keywords>cordova,network</keywords>
+
+    <js-module src="www/NetworkStateMonitor.js" name="NetworkStateMonitor">
+        <clobbers target="window.plugins.NetworkStateMonitor" />
+    </js-module>
+
+    <!-- ios -->
+    <platform name="ios">
+        <config-file target="config.xml" parent="/*">
+            <feature name="NetworkStateMonitor">
+                <param name="ios-package" value="NetworkStateMonitor" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <header-file src="src/ios/NetworkStateMonitor.h" />
+        <header-file src="src/ios/Reachability.h" />
+        <source-file src="src/ios/NetworkStateMonitor.m" />
+        <source-file src="src/ios/Reachability.m" />
+    </platform>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+        </config-file>
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="NetworkStateMonitor">
+              <param name="android-package" value="com.aquto.cordova.networkstate.NetworkStateMonitor"/>
+              <param name="onload" value="true" />
+            </feature>
+        </config-file>
+
+        <source-file src="src/android/NetworkStateMonitor.java" target-dir="src/com/aquto/cordova/networkstate" />
+    </platform>
+</plugin>

@@ -7,6 +7,7 @@
 
 @interface NetworkStateMonitor () {
     Reachability *reachability;
+    NetworkStatus prevState;
 }
 
 @end
@@ -33,12 +34,16 @@
 - (void)registerCallback:(CDVInvokedUrlCommand*)command {
     NSString* localCallbackId = command.callbackId;
     [self.commandDelegate runInBackground:^{
+        prevState = [reachability currentReachabilityStatus];
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [[NSNotificationCenter defaultCenter] addObserverForName:kReachabilityChangedNotification object:nil 
                                               queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notif) {
             Reachability *r = [notif object];
             NetworkStatus status = [r currentReachabilityStatus];
+            if(status == prevState)
+                return;
             NSString *netType = [self statusToString:status];
+            prevState = status;
             NSLog(@"Network transitioned to %@", netType);
 
             CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:netType];

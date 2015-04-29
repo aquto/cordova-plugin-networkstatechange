@@ -30,20 +30,34 @@ public class NetworkStateMonitor extends CordovaPlugin {
     private class NetworkStateReceiver extends BroadcastReceiver {
 
         private CallbackContext callback;
+        private int prevState;
 
         public NetworkStateReceiver(CallbackContext callbackContext) {
             callback = callbackContext;
+            NetworkInfo info = connMan.getActiveNetworkInfo();
+            prevState = toIntState(info);
         }
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            PluginResult pr;
             NetworkInfo info = connMan.getActiveNetworkInfo();
+            if(!hasStateChanged(info))
+                return;
+            prevState = toIntState(info);
             String typeString = typeNameToString(info);
-            pr = new PluginResult(PluginResult.Status.OK, typeString);
+            PluginResult pr = new PluginResult(PluginResult.Status.OK, typeString);
             pr.setKeepCallback(true);
             callback.sendPluginResult(pr);
             Log.d(TAG, "Network transitioned to " + typeString);
+        }
+
+        private int toIntState(NetworkInfo info) {
+            return (info != null ? info.getType() : -1);
+        }
+
+        private boolean hasStateChanged(NetworkInfo info) {
+            int currState = toIntState(info);
+            return currState != prevState;
         }
     }
 

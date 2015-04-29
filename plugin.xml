@@ -10,6 +10,7 @@
 
     <license>MIT</license>
     <keywords>cordova,network</keywords>
+    <preference name="REACHABILITYHOSTNAME" />
 
     <js-module src="www/NetworkStateMonitor.js" name="NetworkStateMonitor">
         <clobbers target="window.plugins.NetworkStateMonitor" />
@@ -23,6 +24,11 @@
                 <param name="onload" value="true" />
             </feature>
         </config-file>
+
+        <config-file target="*-Info.plist" parent="ReachabilityHostname">
+            <string>$REACHABILITYHOSTNAME</string>
+        </config-file>
+
         <header-file src="src/ios/NetworkStateMonitor.h" />
         <header-file src="src/ios/Reachability.h" />
         <source-file src="src/ios/NetworkStateMonitor.m" />

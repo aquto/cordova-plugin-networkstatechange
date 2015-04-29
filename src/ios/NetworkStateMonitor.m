@@ -15,7 +15,8 @@
 @implementation NetworkStateMonitor
 
 - (void)pluginInitialize {
-    reachability = [Reachability reachabilityForInternetConnection];
+    NSString *hostname = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"ReachabilityHostname"];
+    reachability = [Reachability reachabilityWithHostname:hostname];
 }
 
 - (NSString *)statusToString:(NetworkStatus)status {

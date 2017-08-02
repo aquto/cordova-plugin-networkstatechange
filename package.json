@@ -1,0 +1,26 @@
+{
+  "name": "cordova-plugin-networkstatechange",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/aquto/cordova-plugin-networkstatechange.git",
+  "author": "Josh Runge <joshrunge@gmail.com>",
+  "license": "MIT",
+  "cordova": {
+    "id": "phonegap-sms-plugin",
+    "platforms": [
+      "ios",
+      "android"
+    ]
+  },
+  "keywords": [
+    "cordova",
+    "cordova-ios",
+    "cordova-android"
+  ],
+  "engines": [
+    {
+      "name": "cordova",
+      "version": ">=3.1.0"
+    }
+  ]
+}
